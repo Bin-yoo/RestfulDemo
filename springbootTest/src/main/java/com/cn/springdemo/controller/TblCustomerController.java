@@ -1,9 +1,13 @@
 package com.cn.springdemo.controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +44,29 @@ public class TblCustomerController {
 		}else{
 			return "注册失败";
 		}
-
 	}
 	
+	@GetMapping("/customer")
+	public List<TblCustomer> customerList(){
+		
+		List<TblCustomer> list = tblCustomerBiz.allCustomer();
+		
+		if(list == null){
+			return null;
+		}
+		
+		return list;
+	}
+	
+	@DeleteMapping("/customer/{id}")
+	public String removeCustomer(@PathVariable Integer id){
+		System.out.println(id);
+		boolean flag = tblCustomerBiz.remove(id);
+		
+		if(flag){
+			return "删除成功";
+		}else{
+			return "删除失败";
+		}
+	}
 }

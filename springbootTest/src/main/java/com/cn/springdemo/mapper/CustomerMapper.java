@@ -14,5 +14,7 @@ public interface CustomerMapper {
 	TblCustomer selectByCustomerName(String userName);
 
 	void insertFun(TblCustomer tblCustomer);
+
+	void deleteFun(Integer id);
 	
 }

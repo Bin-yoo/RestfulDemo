@@ -16,4 +16,8 @@
 			insert into tbl_customer(customerName,password,customerTrueName,customerAddress,sex,customerEmail,customerPhone,customerRegDate)
 			values(#{customerName},#{password},#{customerTrueName},#{customerAddress},#{sex},#{customerEmail},#{customerPhone},#{customerRegDate})
 		</insert>
+		
+		<delete id="deleteFun" parameterType="int">
+			delete from tbl_customer where customerId=#{id}
+		</delete>
     </mapper>

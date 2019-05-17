@@ -1,5 +1,7 @@
 package com.cn.springdemo.biz;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,24 @@ public class TblCustomerBiz {
 			
 			return true;
 		} catch (Exception e) {
-			System.out.println("ע��ʧ��!!!");
+			System.out.println("注册失败");
+			e.printStackTrace();
+			
+			return false;
+		}
+	}
+
+	public List<TblCustomer> allCustomer() {
+		return customerMapper.selectAll();
+	}
+
+	public boolean remove(Integer id) {
+		try {
+			customerMapper.deleteFun(id);
+			
+			return true;
+		} catch (Exception e) {
+			System.out.println("删除失败!!");
 			e.printStackTrace();
 			
 			return false;

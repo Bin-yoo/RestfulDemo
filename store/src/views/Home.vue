@@ -28,7 +28,7 @@
                 <Card style="">
                     <p slot="title">
                         <Icon type="ios-film-outline"></Icon>
-                        登录
+                        注册
                     </p>
                     <Form ref="formInline" :model="tblCustomer">
                         <FormItem prop="user">
@@ -81,14 +81,19 @@
             </Col>
         </Row>
         <Row>
-            <Col span="12">col-12</Col>
-            <Col span="12">col-12</Col>
+            <Col span="24">
+                <Table :columns="columns1" :data="customerList">
+                    <template slot-scope="{ row, index }" slot="action">
+                        <strong>{{ row.customerID }}</strong>
+                        <Button type="error" size="small" @click="remove(index,row.customerID)">删除</Button>
+                    </template>
+                </Table>
+            </Col>
         </Row>
     </div>
 </template>
 
 <script>
-import qs from 'qs';
 export default {
     name: 'home',
     data(){
@@ -103,11 +108,42 @@ export default {
                 strSex:'man',
                 customerEmail:'',
                 customerPhone:'',
-            }
+            },
+            columns1: [
+                {
+                    title: 'CustomerName',
+                    key: 'customerName'
+                },
+                {
+                    title: 'CustomerTrueName',
+                    key: 'customerTrueName'
+                },
+                {
+                    title: 'CustomerAddress',
+                    key: 'customerAddress'
+                },
+                {
+                    title: 'Sex',
+                    key: 'sex'
+                },
+                {
+                    title: 'CustomerEmail',
+                    key: 'customerEmail'
+                },
+                {
+                    title: 'CustomerPhone',
+                    key: 'customerPhone'
+                },
+                {
+                    title: '操作',
+                    slot: 'action'
+                }
+            ],
+            customerList:[]
         }
     },
     mounted:function(){
-
+        this.getCustomerList();
     },
     methods:{
         Login:function(){
@@ -139,6 +175,33 @@ export default {
                 console.log(error);
             });
         },
+        getCustomerList:function(){
+            this.axios({
+                method: 'get',
+                url: 'http://localhost:8888/test/customer',
+            })
+            .then(response => {
+                console.log(response);
+                this.customerList = response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        remove:function(index,id){
+            this.axios({
+                method: 'delete',
+                url: 'http://localhost:8888/test/customer/' + id,
+            })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+            this.customerList.splice(index, 1);
+        },
+
     }
 }
 </script>
