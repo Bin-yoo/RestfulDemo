@@ -8,23 +8,11 @@ public class TblCustomer {
 	private String password;
 	private String customerTrueName;
 	private String customerAddress;
-	private String strSex;
 	private char sex;
 	private String customerEmail;
 	private String customerPhone;
 	private Timestamp customerRegDate  = new Timestamp((new java.util.Date()).getTime());
-	
-	public String getStrSex() {
-		return strSex;
-	}
-	public void setStrSex(String strSex) {
-		this.strSex = strSex;
-		if(strSex.equals("man")){
-			this.setSex((char)1);
-		}else if(strSex.equals("woman")){
-			this.setSex((char)0);
-		}
-	}
+
 	public Integer getCustomerID() {
 		return customerID;
 	}

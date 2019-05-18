@@ -20,4 +20,9 @@
 		<delete id="deleteFun" parameterType="int">
 			delete from tbl_customer where customerId=#{id}
 		</delete>
+		
+		<update id="updateFun" parameterType="tblCustomer">
+			update tbl_customer set customerName=#{customerName},password=#{password},customerTrueName=#{customerTrueName},
+			sex=#{sex},customerEmail=#{customerEmail},customerPhone=#{customerPhone} where customerID=#{customerID};
+		</update>
     </mapper>

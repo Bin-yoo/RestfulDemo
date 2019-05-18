@@ -51,13 +51,13 @@
                                 <Icon type="md-body" slot="prepend"></Icon>
                             </Input>
                         </FormItem>
-                        <FormItem prop="strSex">
-                            <RadioGroup v-model="tblCustomer.strSex">
-                                <Radio label="man">
+                        <FormItem prop="sex">
+                            <RadioGroup v-model="tblCustomer.sex">
+                                <Radio label="1">
                                     <Icon type="ios-man"></Icon>
                                     <span>男</span>
                                 </Radio>
-                                <Radio label="woman">
+                                <Radio label="0">
                                     <Icon type="ios-woman"></Icon>
                                     <span>女</span>
                                 </Radio>
@@ -84,10 +84,60 @@
             <Col span="24">
                 <Table :columns="columns1" :data="customerList">
                     <template slot-scope="{ row, index }" slot="action">
-                        <strong>{{ row.customerID }}</strong>
+                        <Button type="info" size="small" @click="beforeModify(index),modal = true">修改</Button>
                         <Button type="error" size="small" @click="remove(index,row.customerID)">删除</Button>
                     </template>
                 </Table>
+            </Col>
+        </Row>
+        <Row>
+            <Col span="12">
+                <Modal v-model="modal" title="修改" @on-ok="modify" :mask-closable="false">
+                    <Form ref="formInline" :model="customer">
+                        <FormItem prop="user">
+                            <Input type="text" v-model="customer.customerName" placeholder="用户名">
+                                <Icon type="ios-person-outline" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="password">
+                            <Input type="password" v-model="customer.password" placeholder="密码">
+                                <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="customerTrueName">
+                            <Input type="text" v-model="customer.customerTrueName" placeholder="个人姓名">
+                                <Icon type="md-body" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="customerAddress">
+                            <Input type="text" v-model="customer.customerAddress" placeholder="个人地址">
+                                <Icon type="md-body" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="sex">
+                            <RadioGroup v-model="customer.sex">
+                                <Radio label="1">
+                                    <Icon type="ios-man"></Icon>
+                                    <span>男</span>
+                                </Radio>
+                                <Radio label="0">
+                                    <Icon type="ios-woman"></Icon>
+                                    <span>女</span>
+                                </Radio>
+                            </RadioGroup>
+                        </FormItem>
+                        <FormItem prop="customerEmail">
+                            <Input type="email" v-model="customer.customerEmail" placeholder="电子邮箱">
+                                <Icon type="md-body" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="customerPhone">
+                            <Input type="text" v-model="customer.customerPhone" placeholder="个人电话">
+                                <Icon type="md-body" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                    </Form>
+                </Modal>
             </Col>
         </Row>
     </div>
@@ -105,10 +155,11 @@ export default {
                 password:'',
                 customerTrueName:'',
                 customerAddress:'',
-                strSex:'man',
+                sex:'1',
                 customerEmail:'',
                 customerPhone:'',
             },
+            customer:{},
             columns1: [
                 {
                     title: 'CustomerName',
@@ -139,7 +190,8 @@ export default {
                     slot: 'action'
                 }
             ],
-            customerList:[]
+            customerList:[],
+            modal:false,
         }
     },
     mounted:function(){
@@ -201,7 +253,22 @@ export default {
             });
             this.customerList.splice(index, 1);
         },
-
+        beforeModify:function(index){
+            this.customer = this.customerList[index]
+        },
+        modify:function(){
+            this.axios({
+                method: 'put',
+                url: 'http://localhost:8888/test/customer/' + this.customer.customerID,
+                data:this.customer
+            })
+            .then(response => {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
     }
 }
 </script>

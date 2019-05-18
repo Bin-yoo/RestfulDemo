@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,13 +61,23 @@ public class TblCustomerController {
 	
 	@DeleteMapping("/customer/{id}")
 	public String removeCustomer(@PathVariable Integer id){
-		System.out.println(id);
 		boolean flag = tblCustomerBiz.remove(id);
 		
 		if(flag){
 			return "删除成功";
 		}else{
 			return "删除失败";
+		}
+	}
+	
+	@PutMapping("/customer/{id}")
+	public String modifyCustomer(@PathVariable("id") Integer customerID,@RequestBody TblCustomer tblCustomer){
+		boolean flag = tblCustomerBiz.modifyFun(tblCustomer);
+		
+		if(flag){
+			return "修改成功";
+		}else{
+			return "修改失败";
 		}
 	}
 }

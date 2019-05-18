@@ -54,4 +54,14 @@ public class TblCustomerBiz {
 		}
 	}
 	
+	public boolean modifyFun(TblCustomer tblCustomer) {
+		try{
+			customerMapper.updateFun(tblCustomer);
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 }

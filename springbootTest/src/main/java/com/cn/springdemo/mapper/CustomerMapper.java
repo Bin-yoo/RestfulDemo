@@ -17,4 +17,6 @@ public interface CustomerMapper {
 
 	void deleteFun(Integer id);
 	
+	void updateFun(TblCustomer tblCustomer);
+	
 }
